@@ -28,9 +28,14 @@ dependencies {
     // Use the awesome Spock testing and specification framework even with Java
     testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
 
-
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1-jre'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
 application {
@@ -38,10 +43,10 @@ application {
     mainClass = 'pl.futurecollars.invoicing.App'
 }
 
-
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
+
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
 }
@@ -49,7 +54,6 @@ jacocoTestReport {
 jacoco {
     toolVersion = "0.8.7"
 }
-
 
 jacocoTestCoverageVerification {
     violationRules {
@@ -60,7 +64,6 @@ jacocoTestCoverageVerification {
         }
     }
 }
-
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
