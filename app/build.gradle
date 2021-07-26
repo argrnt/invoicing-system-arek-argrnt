@@ -7,6 +7,9 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.5.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
     // Apply the groovy plugin to also add support for Groovy (needed for Spock)
     id 'groovy'
 
@@ -39,6 +42,9 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 application {
@@ -79,4 +85,3 @@ checkstyle {
     maxWarnings = 0
     maxErrors = 0
 }
-

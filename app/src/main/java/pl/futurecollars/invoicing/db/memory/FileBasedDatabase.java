@@ -57,11 +57,8 @@ public class FileBasedDatabase implements Database {
     }
 
     @Override
-    public void update(int id, Invoice updatedInvoice) {
-
-        if (getById(id).isEmpty()) {
-            throw new IllegalArgumentException("Id " + id + " does not exist");
-        }
+    public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+        Optional<Invoice> toUpdate = getById(id);
 
         updatedInvoice.setId(id);
 
@@ -74,6 +71,7 @@ public class FileBasedDatabase implements Database {
             updatedInvoicesList.add(jsonService.objectToJson(updatedInvoice));
 
             fileService.writeLinesToFile(invoicesPath, updatedInvoicesList);
+            return toUpdate;
 
         } catch (IOException exception) {
             throw new RuntimeException("Failed to update invoice with id: " + id, exception);
@@ -81,7 +79,8 @@ public class FileBasedDatabase implements Database {
     }
 
     @Override
-    public void delete(int id) {
+    public Optional<Invoice> delete(int id) {
+        Optional<Invoice> toDelete = getById(id);
         try {
             List<String> updatedInvoicesList = fileService.readAllLines(invoicesPath)
                     .stream()
@@ -89,6 +88,7 @@ public class FileBasedDatabase implements Database {
                     .collect(Collectors.toList());
 
             fileService.writeLinesToFile(invoicesPath, updatedInvoicesList);
+            return toDelete;
 
         } catch (IOException exception) {
             throw new RuntimeException("Failed to delete invoice with id: " + id, exception);
