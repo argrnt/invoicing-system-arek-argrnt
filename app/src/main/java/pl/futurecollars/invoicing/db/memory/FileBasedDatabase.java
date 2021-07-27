@@ -37,7 +37,7 @@ public class FileBasedDatabase implements Database {
             return fileService.readAllLines(invoicesPath)
                     .stream()
                     .filter(line -> containsId(line, id))
-                    .map(jsonService::stringToObject)
+                    .map(line -> jsonService.stringToObject(line, Invoice.class))
                     .findFirst();
         } catch (IOException exception) {
             throw new RuntimeException("Failed to get invoice with id: " + id, exception);
@@ -49,7 +49,7 @@ public class FileBasedDatabase implements Database {
         try {
             return fileService.readAllLines(invoicesPath)
                     .stream()
-                    .map(jsonService::stringToObject)
+                    .map(line -> jsonService.stringToObject(line, Invoice.class))
                     .collect(Collectors.toList());
         } catch (IOException exception) {
             throw new RuntimeException("Failed to read invoices from file", exception);
