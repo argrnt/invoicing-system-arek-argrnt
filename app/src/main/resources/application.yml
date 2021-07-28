@@ -1,0 +1,19 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  profiles:
+    active: dev
+
+invoicing-system:
+  database: file
+  database.directory: db
+  database.invoices.file: invoices.txt
+  database.id.file: id.txt
+
+logging:
+  level:
+    root: INFO
+    pl:
+      futurecollars:
+        invoicing.db: DEBUG
