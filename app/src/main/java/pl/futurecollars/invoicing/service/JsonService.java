@@ -26,9 +26,9 @@ public class JsonService {
         }
     }
 
-    public Invoice stringToObject(String objectAsString) {
+    public <T> T stringToObject(String objectAsString, Class<T> className) {
         try {
-            return objectMapper.readValue(objectAsString, Invoice.class);
+            return objectMapper.readValue(objectAsString, className);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to convert string to object", e);
         }
