@@ -17,7 +17,6 @@ public class InMemoryDatabase implements Database {
     public int save(Invoice invoice) {
         invoice.setId(nextId);
         invoices.put(nextId, invoice);
-
         return nextId++;
     }
 
