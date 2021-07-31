@@ -25,3 +25,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Archive reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: app/build/reports/**
