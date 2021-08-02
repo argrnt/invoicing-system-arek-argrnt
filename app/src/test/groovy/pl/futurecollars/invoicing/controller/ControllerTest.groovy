@@ -5,12 +5,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import pl.futurecollars.invoicing.TestHelpers
+import static pl.futurecollars.invoicing.TestHelpers.invoice
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.JsonService
 import pl.futurecollars.invoicing.service.TaxCalculatorResult
 import spock.lang.Specification
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -59,7 +58,7 @@ class ControllerTest extends Specification{
 
     List<Invoice> addUniqueInvoices(int count) {
         (1..count).collect { id ->
-            def invoice = TestHelpers.invoice(id)
+            def invoice = invoice(id)
             invoice.id = addInvoiceAndReturnId(jsonService.objectToJson(invoice))
             return invoice
         }
@@ -81,7 +80,7 @@ class ControllerTest extends Specification{
     }
 
     String invoiceAsJson(int id) {
-        jsonService.objectToJson(TestHelpers.invoice(id))
+        jsonService.objectToJson(invoice(id))
     }
 
     TaxCalculatorResult calculateTax(String taxIdentificationNumber) {

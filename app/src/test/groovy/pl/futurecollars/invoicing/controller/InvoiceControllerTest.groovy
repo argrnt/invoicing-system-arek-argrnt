@@ -1,21 +1,63 @@
 package pl.futurecollars.invoicing.controller
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import pl.futurecollars.invoicing.TestHelpers
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.MockMvc
+import pl.futurecollars.invoicing.service.JsonService
+import static pl.futurecollars.invoicing.TestHelpers.invoice
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class InvoiceControllerTest extends ControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc
+
+    @Autowired
+    private JsonService jsonService
+
 
     def "empty array is returned when no invoices were added"() {
         expect:
         getAllInvoices() == []
     }
 
-   def "add invoice returns sequential id"() {
+    def "empty array is returned when no invoices were added2"() {
+        when:
+        def response = mockMvc.perform(get(INVOICE_ENDPOINT))
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString
+        then:
+        response == "[]"
+    }
+
+    def "empty array is returned when no invoices were created"() {
+        expect:
+        mockMvc.perform(get(INVOICE_ENDPOINT))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString == "[]"
+    }
+
+    def "empty array is returned when no invoices were created2"() {
+        when:
+        def response = mockMvc.perform(get(INVOICE_ENDPOINT))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn()
+                .response
+                .contentAsString
+        then:
+        response == "[]"
+    }
+
+
+    def "add invoice returns sequential id"() {
         given:
         def invoiceAsJson = invoiceAsJson(1)
 
@@ -99,7 +141,7 @@ class InvoiceControllerTest extends ControllerTest {
     def "invoice date can be modified"() {
         given:
         def id = addInvoiceAndReturnId(invoiceAsJson(44))
-        def updatedInvoice = TestHelpers.invoice(123)
+        def updatedInvoice = invoice(123)
         updatedInvoice.id = id
 
         expect:
@@ -121,4 +163,5 @@ class InvoiceControllerTest extends ControllerTest {
         invoices.each { invoice -> deleteInvoice(invoice.getId()) }
         getAllInvoices().size() == 0
     }
+
 }
