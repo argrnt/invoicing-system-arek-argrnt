@@ -1,12 +1,12 @@
 package pl.futurecollars.invoicing.db.memory
 
-import pl.futurecollars.invoicing.TestHelpers
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.db.DatabaseTest
 import pl.futurecollars.invoicing.service.FileService
 import pl.futurecollars.invoicing.service.IdService
 import pl.futurecollars.invoicing.service.JsonService
-
 import java.nio.file.Files
+import static pl.futurecollars.invoicing.TestHelpers.invoice
 
 class FileBasedDatabaseTest extends DatabaseTest{
 
@@ -28,13 +28,13 @@ class FileBasedDatabaseTest extends DatabaseTest{
         def db = getDatabaseInstance()
 
         when:
-        db.save(TestHelpers.invoice(4))
+        db.save(invoice(4))
 
         then:
         1 == Files.readAllLines(dbPath).size()
 
         when:
-        db.save(TestHelpers.invoice(5))
+        db.save(invoice(5))
 
         then:
         2 == Files.readAllLines(dbPath).size()
