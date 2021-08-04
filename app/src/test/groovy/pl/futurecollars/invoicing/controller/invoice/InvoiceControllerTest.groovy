@@ -1,8 +1,9 @@
-package pl.futurecollars.invoicing.controller
+package pl.futurecollars.invoicing.controller.invoice
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import pl.futurecollars.invoicing.controller.ControllerTest
 import pl.futurecollars.invoicing.service.JsonService
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
