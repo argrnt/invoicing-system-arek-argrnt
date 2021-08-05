@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import pl.futurecollars.invoicing.model.Company
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.JsonService
@@ -17,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class ControllerTest extends Specification{
+class ControllerTest extends Specification {
 
     static final String INVOICE_ENDPOINT = "/invoices"
     static final String TAX_CALCULATOR_ENDPOINT = "/tax"
@@ -32,11 +33,11 @@ class ControllerTest extends Specification{
         getAllInvoices().each { invoice -> deleteInvoice(invoice.id) }
     }
 
-    int addInvoiceAndReturnId(String invoiceAsJson) {
+    int addInvoiceAndReturnId(Invoice invoice) {
         Integer.valueOf(
                 mockMvc.perform(
                         post(INVOICE_ENDPOINT)
-                                .content(invoiceAsJson)
+                                .content(jsonService.objectToJson(invoice))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                         .andExpect(status().isOk())
@@ -59,7 +60,7 @@ class ControllerTest extends Specification{
     List<Invoice> addUniqueInvoices(int count) {
         (1..count).collect { id ->
             def invoice = invoice(id)
-            invoice.id = addInvoiceAndReturnId(jsonService.objectToJson(invoice))
+            invoice.id = addInvoiceAndReturnId(invoice)
             return invoice
         }
     }
@@ -83,8 +84,12 @@ class ControllerTest extends Specification{
         jsonService.objectToJson(invoice(id))
     }
 
-    TaxCalculatorResult calculateTax(String taxIdentificationNumber) {
-        def response = mockMvc.perform(get("$TAX_CALCULATOR_ENDPOINT/$taxIdentificationNumber"))
+    TaxCalculatorResult calculateTax(Company company) {
+        def response = mockMvc.perform(
+                post("$TAX_CALCULATOR_ENDPOINT")
+                        .content(jsonService.objectToJson(company))
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
                 .andExpect(status().isOk())
                 .andReturn()
                 .response

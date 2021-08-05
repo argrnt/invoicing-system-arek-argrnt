@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.db.memory;
+package pl.futurecollars.invoicing.db.file;
 
 import java.io.IOException;
 import java.nio.file.Path;

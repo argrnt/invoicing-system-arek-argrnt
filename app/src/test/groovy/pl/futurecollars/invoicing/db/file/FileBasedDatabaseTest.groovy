@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.db.memory
+package pl.futurecollars.invoicing.db.file
 
 import pl.futurecollars.invoicing.db.Database
 import pl.futurecollars.invoicing.db.DatabaseTest
@@ -6,11 +6,13 @@ import pl.futurecollars.invoicing.service.FileService
 import pl.futurecollars.invoicing.service.IdService
 import pl.futurecollars.invoicing.service.JsonService
 import java.nio.file.Files
+import java.nio.file.Path
+
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 
 class FileBasedDatabaseTest extends DatabaseTest{
 
-    def dbPath
+    Path dbPath
 
     @Override
     Database getDatabaseInstance() {
