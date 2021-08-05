@@ -1,15 +1,13 @@
+server:
+  port: 8080
+
 spring:
   main:
     allow-bean-definition-overriding: true
-
   profiles:
-    active: dev
-
-invoicing-system:
-  database: file
-  database.directory: db
-  database.invoices.file: invoices.txt
-  database.id.file: id.txt
+    active: file
+  flyway:
+    enabled: false
 
 logging:
   level:
