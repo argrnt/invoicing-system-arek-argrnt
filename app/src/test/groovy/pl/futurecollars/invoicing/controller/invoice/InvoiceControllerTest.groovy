@@ -5,11 +5,14 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.controller.ControllerTest
 import pl.futurecollars.invoicing.service.JsonService
+import spock.lang.Unroll
+
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Unroll
 class InvoiceControllerTest extends ControllerTest {
 
     @Autowired
