@@ -5,7 +5,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: file
+    active: sql
   flyway:
     enabled: false
 
