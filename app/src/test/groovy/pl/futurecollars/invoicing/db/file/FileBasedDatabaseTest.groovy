@@ -7,7 +7,6 @@ import pl.futurecollars.invoicing.service.IdService
 import pl.futurecollars.invoicing.service.JsonService
 import java.nio.file.Files
 import java.nio.file.Path
-
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 
 class FileBasedDatabaseTest extends DatabaseTest{

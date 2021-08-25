@@ -8,7 +8,7 @@ public class IdService {
 
     private final Path idFilePath;
     private final FileService fileService;
-    private int nextId = 1;
+    private long nextId = 1;
 
     public IdService(Path idFilePath, FileService fileService) {
         this.idFilePath = idFilePath;
@@ -27,7 +27,7 @@ public class IdService {
 
     }
 
-    public int getNextId() {
+    public long getNextId() {
         try {
             fileService.writeToFile(idFilePath, String.valueOf(nextId + 1));
             return nextId++;
