@@ -2,7 +2,8 @@ CREATE TABLE public.invoice_entry
 (
     id bigserial NOT NULL,
     description character varying(50),
-    price numeric(10, 2) NOT NULL,
+    quantity numeric(10, 2) NOT NULL DEFAULT 1,
+    net_price numeric(10, 2) NOT NULL,
     vat_value numeric(10, 2) NOT NULL,
     vat_rate bigint NOT NULL,
     expense_related_to_car bigint,
@@ -15,7 +16,5 @@ ALTER TABLE public.invoice_entry
 
 ALTER TABLE public.invoice_entry
     ADD CONSTRAINT car_fk FOREIGN KEY (expense_related_to_car)
-        REFERENCES public.car (id);
-
-ALTER TABLE public.invoice_entry
-    OWNER to postgres;
+        REFERENCES public.car (id)
+        ON DELETE CASCADE;

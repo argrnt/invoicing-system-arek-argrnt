@@ -24,9 +24,9 @@ public class JsonService {
         }
     }
 
-    public <T> T stringToObject(String objectAsString, Class<T> className) {
+    public <T> T stringToObject(String json, Class<T> className) {
         try {
-            return objectMapper.readValue(objectAsString, className);
+            return objectMapper.readValue(json, className);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to convert string to object", e);
         }

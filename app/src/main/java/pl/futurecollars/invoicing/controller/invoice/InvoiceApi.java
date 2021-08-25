@@ -19,11 +19,11 @@ public interface InvoiceApi {
 
     @GetMapping
     @ApiOperation("Get all invoices")
-    List<Invoice> getAllInvoices();
+    List<Invoice> getAll();
 
     @PostMapping
     @ApiOperation("Add new invoice to system")
-    int addInvoice(@RequestBody Invoice invoice);
+    int add(@RequestBody Invoice invoice);
 
     @GetMapping(value = "/{id}")
     @ApiOperation("Get invoice by id")
@@ -35,5 +35,5 @@ public interface InvoiceApi {
 
     @PutMapping("/{id}")
     @ApiOperation("Update invoice with given id")
-    ResponseEntity<?> updateById(@PathVariable int id, @RequestBody Invoice updatedInvoice);
+    ResponseEntity<?> update(@PathVariable int id, @RequestBody Invoice updatedInvoice);
 }

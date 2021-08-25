@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import pl.futurecollars.invoicing.db.file.FileBasedDatabase;
 import pl.futurecollars.invoicing.db.memory.InMemoryDatabase;
+import pl.futurecollars.invoicing.db.sql.SqlDatabase;
 import pl.futurecollars.invoicing.service.FileService;
 import pl.futurecollars.invoicing.service.IdService;
 import pl.futurecollars.invoicing.service.JsonService;
@@ -36,15 +38,19 @@ public class DatabaseConfiguration {
                                       @Value("${invoicing-system.database.directory}") String databaseDirectory,
                                       @Value("${invoicing-system.database.invoices.file}") String invoicesFile)
             throws IOException {
-        log.debug("Creating in-file database");
         Path databaseFilePath = Files.createTempFile(databaseDirectory, invoicesFile);
         return new FileBasedDatabase(databaseFilePath, idService, fileService, jsonService);
     }
 
     @Bean
+    @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "sql")
+    public Database sqlDatabase(JdbcTemplate jdbcTemplate) {
+        return new SqlDatabase(jdbcTemplate);
+    }
+
+    @Bean
     @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "memory")
     public Database inMemoryDatabase() {
-        log.debug("Creating in-memory database");
         return new InMemoryDatabase();
     }
 }
