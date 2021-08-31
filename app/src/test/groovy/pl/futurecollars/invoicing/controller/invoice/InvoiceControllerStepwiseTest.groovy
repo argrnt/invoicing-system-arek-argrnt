@@ -27,17 +27,15 @@ class InvoiceControllerStepwiseTest extends Specification {
     @Autowired
     private JsonService jsonService
 
-    private Invoice originalInvoice = invoice(1)
-
-    private LocalDate updatedDate = LocalDate.of(2021, 07, 27)
-
-    private static final String ENDPOINT = "/invoices"
-
     @Shared
     private int invoiceId
 
     @Shared
     private boolean isSetupDone = false
+
+    private Invoice originalInvoice = invoice(1)
+    private LocalDate updatedDate = LocalDate.of(2021, 07, 27)
+    private static final String ENDPOINT = "/invoices"
 
 
     def setup() {
@@ -61,7 +59,7 @@ class InvoiceControllerStepwiseTest extends Specification {
         return jsonService.stringToObject(response, Invoice[])
     }
 
-    void deleteInvoice(int id) {
+    void deleteInvoice(long id) {
         mockMvc.perform(delete("$ENDPOINT/$id"))
                 .andExpect(status().isNoContent())
     }

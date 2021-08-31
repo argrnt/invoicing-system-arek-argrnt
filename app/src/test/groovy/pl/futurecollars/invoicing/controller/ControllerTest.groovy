@@ -65,12 +65,12 @@ class ControllerTest extends Specification {
         }
     }
 
-    void deleteInvoice(int id) {
+    void deleteInvoice(long id) {
         mockMvc.perform(delete("$INVOICE_ENDPOINT/$id"))
                 .andExpect(status().isNoContent())
     }
 
-    Invoice getInvoiceById(int id) {
+    Invoice getInvoiceById(long id) {
         def invoiceAsString = mockMvc.perform(get("$INVOICE_ENDPOINT/$id"))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -80,7 +80,7 @@ class ControllerTest extends Specification {
         jsonService.stringToObject(invoiceAsString, Invoice)
     }
 
-    String invoiceAsJson(int id) {
+    String invoiceAsJson(long id) {
         jsonService.objectToJson(invoice(id))
     }
 
