@@ -6,7 +6,7 @@ import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.controller.ControllerTest
 import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Unroll
-
+import static pl.futurecollars.invoicing.TestHelpers.resetIds
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
@@ -80,19 +80,19 @@ class InvoiceControllerTest extends ControllerTest {
 
         then:
         invoices.size() == numberOfInvoices
-        invoices == expectedInvoices
+        resetIds(invoices) == resetIds(expectedInvoices)
     }
 
     def "correct invoice is returned when getting by id"() {
         given:
         def expectedInvoices = addUniqueInvoices(5)
-        def verifiedInvoice = expectedInvoices.get(2)
+        def expectedInvoice = expectedInvoices.get(2)
 
         when:
-        def invoice = getInvoiceById(verifiedInvoice.getId())
+        def invoice = getInvoiceById(expectedInvoice.getId())
 
         then:
-        invoice == verifiedInvoice
+        resetIds(invoice) == resetIds(expectedInvoice)
     }
 
     def "404 is returned when invoice id is not found when getting invoice by id [#id]"() {
@@ -153,8 +153,8 @@ class InvoiceControllerTest extends ControllerTest {
         )
                 .andExpect(status().isNoContent())
 
-        def invoiceFromDbAfterUpdate = getInvoiceById(id).toString()
-        def expectedInvoice = updatedInvoice.toString()
+        def invoiceFromDbAfterUpdate = resetIds(getInvoiceById(id)).toString()
+        def expectedInvoice = resetIds(updatedInvoice).toString()
         invoiceFromDbAfterUpdate == expectedInvoice
     }
 

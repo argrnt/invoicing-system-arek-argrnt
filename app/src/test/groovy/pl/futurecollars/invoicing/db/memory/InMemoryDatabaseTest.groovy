@@ -1,9 +1,9 @@
 package pl.futurecollars.invoicing.db.memory
 
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.db.DatabaseTest
+import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 
-class InMemoryDatabaseTest extends DatabaseTest{
+class InMemoryDatabaseTest extends AbstractDatabaseTest{
 
     @Override
     Database getDatabaseInstance() {
