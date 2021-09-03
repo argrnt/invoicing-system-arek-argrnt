@@ -1,7 +1,8 @@
 package pl.futurecollars.invoicing.db.file
 
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.db.DatabaseTest
+import pl.futurecollars.invoicing.db.AbstractDatabaseTest
+import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.FileService
 import pl.futurecollars.invoicing.service.IdService
 import pl.futurecollars.invoicing.service.JsonService
@@ -9,7 +10,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 
-class FileBasedDatabaseTest extends DatabaseTest{
+class FileBasedDatabaseTest extends AbstractDatabaseTest{
 
     Path dbPath
 
@@ -21,7 +22,7 @@ class FileBasedDatabaseTest extends DatabaseTest{
         def idService = new IdService(idPath, fileService)
 
         dbPath = File.createTempFile('invoices', '.txt').toPath()
-        return new FileBasedDatabase(dbPath, idService, fileService, new JsonService())
+        new FileBasedDatabase<>(dbPath, idService, fileService, new JsonService(), Invoice)
     }
 
     def "file based database writes invoices to correct file"() {

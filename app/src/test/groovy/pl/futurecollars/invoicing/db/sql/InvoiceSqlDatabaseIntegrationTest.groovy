@@ -5,11 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.db.DatabaseTest
+import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 
 import javax.sql.DataSource
 
-class SqlDatabaseIntegrationTest extends DatabaseTest {
+class InvoiceSqlDatabaseIntegrationTest extends AbstractDatabaseTest {
 
     @Override
     Database getDatabaseInstance() {
@@ -24,7 +24,7 @@ class SqlDatabaseIntegrationTest extends DatabaseTest {
         flyway.clean()
         flyway.migrate()
 
-        new SqlDatabase(jdbcTemplate)
+        new InvoiceSqlDatabase(jdbcTemplate)
     }
 
 }
