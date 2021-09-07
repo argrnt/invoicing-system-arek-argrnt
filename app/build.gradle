@@ -40,6 +40,8 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.security:spring-security-test"
 
     runtimeOnly 'com.h2database:h2:1.4.200'
     runtimeOnly 'org.postgresql:postgresql:42.2.19'

@@ -6,6 +6,8 @@ import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.controller.ControllerTest
 import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Unroll
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import static pl.futurecollars.invoicing.TestHelpers.resetIds
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -116,6 +118,7 @@ class InvoiceControllerTest extends ControllerTest {
         expect:
         mockMvc.perform(
                 delete("$INVOICE_ENDPOINT/$id")
+                        .with(csrf())
         )
                 .andExpect(status().isNotFound())
 
@@ -132,6 +135,7 @@ class InvoiceControllerTest extends ControllerTest {
                 put("$INVOICE_ENDPOINT/$id")
                         .content(invoiceAsJson(1))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
         )
                 .andExpect(status().isNotFound())
 
@@ -150,6 +154,7 @@ class InvoiceControllerTest extends ControllerTest {
                 put("$INVOICE_ENDPOINT/$id")
                         .content(jsonService.objectToJson(updatedInvoice))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
         )
                 .andExpect(status().isNoContent())
 
