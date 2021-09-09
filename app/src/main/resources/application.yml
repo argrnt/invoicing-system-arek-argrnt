@@ -1,17 +1,27 @@
 server:
   port: 8080
 
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+    pl:
+      futurecollars:
+        invoicing: INFO
+        invoicing.db: DEBUG
+
 spring:
-  main:
-    allow-bean-definition-overriding: true
   profiles:
     active: file
   flyway:
     enabled: false
+  security:
+    user:
+      name: user
+      password: password
 
-logging:
-  level:
-    root: INFO
-    pl:
-      futurecollars:
-        invoicing.db: DEBUG
+invoicing-system:
+  allowedOrigins: http://localhost:4200
+  csrf:
+    disable: true

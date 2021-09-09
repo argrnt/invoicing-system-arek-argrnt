@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.model.Company
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import static pl.futurecollars.invoicing.TestHelpers.company
 import static pl.futurecollars.invoicing.TestHelpers.invoice
 import pl.futurecollars.invoicing.model.Invoice
@@ -17,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@WithMockUser
 @AutoConfigureMockMvc
 @SpringBootTest
 class ControllerTest extends Specification {
@@ -69,12 +73,12 @@ class ControllerTest extends Specification {
     }
 
     void deleteInvoice(long id) {
-        mockMvc.perform(delete("$INVOICE_ENDPOINT/$id"))
+        mockMvc.perform(delete("$INVOICE_ENDPOINT/$id").with(csrf()))
                 .andExpect(status().isNoContent())
     }
 
     void deleteCompany(long id) {
-        mockMvc.perform(delete("$COMPANY_ENDPOINT/$id"))
+        mockMvc.perform(delete("$COMPANY_ENDPOINT/$id").with(csrf()))
                 .andExpect(status().isNoContent())
     }
 
@@ -99,6 +103,7 @@ class ControllerTest extends Specification {
                 post("$TAX_CALCULATOR_ENDPOINT")
                         .content(jsonService.objectToJson(company))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
         )
                 .andExpect(status().isOk())
                 .andReturn()
@@ -114,6 +119,7 @@ class ControllerTest extends Specification {
                         post(endpoint)
                                 .content(jsonService.objectToJson(item))
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(csrf())
                 )
                         .andExpect(status().isOk())
                         .andReturn()
